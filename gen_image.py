@@ -17,7 +17,7 @@ with open('image_data.txt', 'r') as f:
 
     for i in range(0, image_height):
         for j in range(0, image_width):
-            image_data[i][j] = counter
+            image_data[i][j] = d[counter]
             counter += 1
 
 cv2.imshow('image', image_data)
