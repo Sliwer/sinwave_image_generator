@@ -1,1 +1,1 @@
-# sinwave_image_generatro
+# sinwave_image_generator
