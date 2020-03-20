@@ -4,6 +4,7 @@
 
 
 void printImageMatrix(int **img);
+void init(int image_width, int image_height, int image_layers_count, int **image_data, float *x_mod, float *y_mod, float *s_mod);
 
 int main()
 {   
@@ -24,7 +25,24 @@ int main()
     for (int i = 0; i < image_height; i++)
         image_data[i] = new int[image_width];
 
-    // Fill the matrix with 0's
+    // Initializing all the field above from a file
+    init(image_width, image_height, image_layers_count, image_data, x_mod, y_mod, s_mod);
+
+    for (int i = 0; i < image_layers_count; i++)
+        printf("%f %f %f \n", x_mod[i], y_mod[i], s_mod[i]);
+
+
+    // Code that renders the image using a python script
+    // int img_script_res = system("python gen_image.py");
+    //if (img_script_res != 0)
+    //    printf("Exit code was: %d", img_script_res);
+
+    //return 0;
+}
+
+void init(int image_width, int image_height, int image_layers_count, int **image_data, float *x_mod, float *y_mod, float *s_mod)
+{
+    // Fill the image_data matrix with 0's
     for (int i = 0; i < image_height; i++)
         for (int j = 0; j < image_width; j++)
             image_data[i][j] = 0;
@@ -43,17 +61,6 @@ int main()
     for (int i = 0; i < image_layers_count; i++)
         layer_input >> x_mod[i] >> y_mod[i] >> s_mod[i];
     layer_input.close();
-
-    for (int i = 0; i < image_layers_count; i++)
-        printf("%f %f %f \n", x_mod[i], y_mod[i], s_mod[i]);
-
-
-    // Code that renders the image using a python script
-    // int img_script_res = system("python gen_image.py");
-    //if (img_script_res != 0)
-    //    printf("Exit code was: %d", img_script_res);
-
-    //return 0;
 }
 
 void printImageMatrix(int **img, int h, int w)
