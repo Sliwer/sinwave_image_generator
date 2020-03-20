@@ -1,4 +1,7 @@
 #include <iostream>
+#include <string>
+#include <fstream>
+
 
 void printImageMatrix(int **img);
 
@@ -26,12 +29,22 @@ int main()
         for (int j = 0; j < image_width; j++)
             image_data[i][j] = 0;
 
+    // Generate the data for x_mod, y_mod, s_mod with a .py script
+    char layer_count_string[4], layer_gen_command[22] = "python gen_layer.py ";
+    std::sprintf(layer_count_string, "%d", image_layers_count);
+    std::strcat(layer_gen_command, layer_count_string);
     
+    int layer_gen_script_res = system(layer_gen_command);
+    if (layer_gen_script_res != 0)
+        printf("Exit code was: %d", layer_gen_script_res);
+
     
+
+
     // Code that renders the image using a python script
-    int res = system("python gen_image.py");
-    if (res != 0)
-        printf("Exit code was: %d", res);
+    int img_script_res = system("python gen_image.py");
+    if (img_script_res != 0)
+        printf("Exit code was: %d", img_script_res);
 
     return 0;
 }
