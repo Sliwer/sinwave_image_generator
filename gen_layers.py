@@ -1,12 +1,14 @@
 import random
 import sys
 
+file_path = 'layer_data.txt'
+
 # l = number of layers
 def random_gen(l):
     # Clear the file before writing the new content
-    with open('image_data.txt', 'w') as f:
+    with open(file_path, 'w') as f:
         f.write('')
-    with open('image_data.txt', 'a') as f:
+    with open(file_path, 'a') as f:
         for _ in range(0, l):
             # Rand only generates int but we want values from 0.0 to 2.0
             x_mod = random.randrange(0, 200) / 200
