@@ -30,7 +30,7 @@ int main()
             image_data[i][j] = 0;
 
     // Generate the data for x_mod, y_mod, s_mod with a .py script
-    char layer_count_string[4], layer_gen_command[22] = "python gen_layer.py ";
+    char layer_count_string[4], layer_gen_command[30] = "python gen_layers.py ";
     std::sprintf(layer_count_string, "%d", image_layers_count);
     std::strcat(layer_gen_command, layer_count_string);
     
@@ -38,15 +38,22 @@ int main()
     if (layer_gen_script_res != 0)
         printf("Exit code was: %d", layer_gen_script_res);
 
-    
+    // Reading the data into x_mod, y_mod, s_mod
+    std::ifstream layer_input("layer_data.txt");
+    for (int i = 0; i < image_layers_count; i++)
+        layer_input >> x_mod[i] >> y_mod[i] >> s_mod[i];
+    layer_input.close();
+
+    for (int i = 0; i < image_layers_count; i++)
+        printf("%f %f %f \n", x_mod[i], y_mod[i], s_mod[i]);
 
 
     // Code that renders the image using a python script
-    int img_script_res = system("python gen_image.py");
-    if (img_script_res != 0)
-        printf("Exit code was: %d", img_script_res);
+    // int img_script_res = system("python gen_image.py");
+    //if (img_script_res != 0)
+    //    printf("Exit code was: %d", img_script_res);
 
-    return 0;
+    //return 0;
 }
 
 void printImageMatrix(int **img, int h, int w)
