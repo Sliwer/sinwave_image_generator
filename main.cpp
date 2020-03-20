@@ -2,14 +2,14 @@
 #include <string>
 #include <fstream>
 
-
-void printImageMatrix(int **img);
+void output(int **image_data, int w, int h);
 void init(int image_width, int image_height, int image_layers_count, int **image_data, float *x_mod, float *y_mod, float *s_mod);
+void printImageMatrix(int **img);
 
 int main()
 {   
     // Define the basic image properties
-    const int image_width = 4, image_height = 4, image_layers_count = 10;
+    const int image_width = 800, image_height = 600, image_layers_count = 10;
 
     // The values to be multiplied with the x coordonate
     float *x_mod = new float[image_layers_count];
@@ -28,16 +28,25 @@ int main()
     // Initializing all the field above from a file
     init(image_width, image_height, image_layers_count, image_data, x_mod, y_mod, s_mod);
 
-    for (int i = 0; i < image_layers_count; i++)
-        printf("%f %f %f \n", x_mod[i], y_mod[i], s_mod[i]);
-
+    // Write the generated image matrix in a file
+    output(image_data, image_width, image_height);
 
     // Code that renders the image using a python script
-    // int img_script_res = system("python gen_image.py");
-    //if (img_script_res != 0)
-    //    printf("Exit code was: %d", img_script_res);
+    int img_script_res = system("python gen_image.py");
+    if (img_script_res != 0)
+        printf("Exit code was: %d", img_script_res);
 
     //return 0;
+}
+
+void output(int **image_data, int w, int h)
+{
+    std::ofstream data_output("image_data.txt");
+    data_output << h << " " << w << "\n";
+    for (int i = 0; i < h; i++)
+        for (int j = 0; j < w; j++)
+            data_output << image_data[i][j] << " ";
+    data_output.close();
 }
 
 void init(int image_width, int image_height, int image_layers_count, int **image_data, float *x_mod, float *y_mod, float *s_mod)
